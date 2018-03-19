@@ -15,6 +15,8 @@ namespace Patchwork
 
         int neutralToken = 0;
         Boolean player1Priority = true;
+        char tieB = 'n';
+        char sevenX = 'n';
 
         int tileLocation;//for buy action
 
@@ -79,12 +81,12 @@ namespace Patchwork
             player2.Reset();
 
             string action;
-            while ((player1.GetTime() > 0)&&(player2.GetTime() > 0))
+            while ((player1.GetTime() > 0)&&(player2.GetTime() > 0))//while is not over
             {
                 if (player1.GetTime() > player2.GetTime())
                 {
                     player1Priority = true;
-                }
+                }//deturming current player
                 else if (player1.GetTime() < player2.GetTime())
                 {
                     player1Priority = false;
@@ -94,7 +96,7 @@ namespace Patchwork
                 if (player1Priority)
                 {
                     action = player1.Turn(this);
-                   action = action.ToUpper();
+                    action = action.ToUpper();
 
                     if (action == "PASS")
                     {
@@ -126,7 +128,7 @@ namespace Patchwork
                     {
                         Buy(player1, action);
                     }
-                }
+                }//there action
                 else
                 {
                     action = player2.Turn(this);
@@ -156,7 +158,8 @@ namespace Patchwork
                     }
                 }
                 List<int> toRemove = new List<int>();
-                foreach (int i in specialPatches)
+
+                foreach (int i in specialPatches)//remove special patches
                 {
                     if (player1Priority)
                     {
@@ -181,6 +184,37 @@ namespace Patchwork
                 }
 
 
+                if (sevenX == 'n')
+                {
+                    if (player1Priority)
+                    {
+                        if (CheckForSevenX(player1))
+                        {
+                            sevenX = '1';
+                        }
+                    }
+                    else
+                    {
+                        if (CheckForSevenX(player2))
+                        {
+                            sevenX = '2';
+                        }
+                    }
+                }
+
+
+
+                if (tieB == 'n')
+                {
+                    if (player1.GetTime() <= 0)
+                    {
+                        tieB = '1';
+                    }
+                    else if (player2.GetTime() <= 0)
+                    {
+                        tieB = '2';
+                    }
+                }
 
 
             }
@@ -188,6 +222,15 @@ namespace Patchwork
             
             int p1score = player1.GetGrid().returnScore() + player1.GetButtons();
             int p2score = player2.GetGrid().returnScore() + player2.GetButtons();
+
+            if (sevenX == '1')
+            {
+                p1score += 7;
+            }
+            else if (sevenX == '2')
+            {
+                p2score += 7;
+            }
 
             if (p1score > p2score)
             {
@@ -199,7 +242,19 @@ namespace Patchwork
             }
             else
             {
-                winner = new Player("Draw");
+                //winner = new Player("Draw");
+                if (tieB == '1')
+                {
+                    winner = player1;
+                }
+                else if (tieB == '2')
+                {
+                    winner = player2;
+                }
+                else
+                {
+                    winner = new Player("Draw");
+                }
             }
 
             return winner;
@@ -478,6 +533,54 @@ namespace Patchwork
             return tileList;
         }
 
+        public bool CheckForSevenX(Player p)//i hate everythng about this
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
 
+                    int counter = 0;
+
+                    for (int x = 0; x < 7; x++)
+                    {
+                        for (int y = 0; y < 7; y++)
+                        {
+                            
+                            if (p.GetGrid().shape[i+x,j+y])
+                            {
+                                counter++;
+                                if (counter >= 49)
+                                {
+
+                                    Console.WriteLine(":O");
+                                    Console.ReadLine();
+                                    return true;
+                                    
+                                }
+                            }
+                            else
+                            {
+                                if ((i + x >= 2) && (i + x <= 6) && (j + y <= 6) && (j + y >= 2))//slight optimasation 
+                                {
+                                    return false;
+                                }
+                                goto Next;
+
+                                
+                            }
+                        }
+                    }
+
+                Next:;
+                }
+                
+            }
+
+
+
+
+            return false;
+        }
     }
 }

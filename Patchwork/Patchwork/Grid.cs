@@ -6,7 +6,7 @@ namespace Patchwork
 {
     public class Grid
     {
-        bool[,] shape = new bool[9, 9];
+        public bool[,] shape = new bool[9, 9];
 
         public Grid()
         {

@@ -171,9 +171,11 @@ namespace Patchwork
             return returnString;
         }
 
-        public override string SpecialPatch(Game current)
+        public override string SpecialPatch(Game current) //better version
         {
             String returnString = "";
+
+            int best = 0;
 
             for (int i = 0; i < 9; i++)
             {
@@ -181,8 +183,68 @@ namespace Patchwork
                 {
                     if (!this.GetGrid().tryPatch(i, j))
                     {
-                        returnString = i + " " + j;
-                        return returnString;
+                        int total = 0;
+
+                        if (i != 0)
+                        {
+                            if (this.GetGrid().shape[i-1,j])
+                            {
+                                total++;
+                            }
+                        }
+                        else
+                        {
+                            total++;
+                        }
+
+                        if (i != 8)
+                        {
+                            if (this.GetGrid().shape[i + 1, j])
+                            {
+                                total++;
+                            }
+                        }
+                        else
+                        {
+                            total++;
+                        }
+
+                        if (j != 0)
+                        {
+                            if (this.GetGrid().shape[i, j-1])
+                            {
+                                total++;
+                            }
+                        }
+                        else
+                        {
+                            total++;
+                        }
+
+                        if (j != 8)
+                        {
+                            if (this.GetGrid().shape[i, j + 1])
+                            {
+                                total++;
+                            }
+                        }
+                        else
+                        {
+                            total++;
+                        }
+
+                        if (total == 4)
+                        {
+                            return i + " " + j;
+                        }
+
+                        if (total > best)
+                        {
+                            returnString = i + " " + j;
+                            total = best;
+                        }
+                        
+                        
                     }
                 }
             }

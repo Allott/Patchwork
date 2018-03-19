@@ -51,6 +51,15 @@ namespace Patchwork
                         Game game1 = new Game();
                         tilesLoadFile(game1, path);
                         game1.setPlayers(hum1, pass);
+                        /*
+                        for (int i = 0; i < 7; i++)
+                        {
+                            for (int j = 0; j < 7; j++)
+                            {
+                                hum1.GetGrid().shape[i+2, j+2] = true;
+                            }
+                        }
+                        */
                         game1.rungame();
                         break;
 
