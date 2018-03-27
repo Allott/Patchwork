@@ -11,6 +11,16 @@ namespace Patchwork
         int timeLeft = 52;//check this
         string name;
         Grid playergrid = new Grid();
+
+        public Player(Player p)
+        {
+            buttons = p.buttons;
+            buttonGain = p.buttonGain;
+            timeLeft = p.timeLeft;
+            name = p.name;
+            playergrid = new Grid(p.GetGrid());
+        }
+
         public virtual string Turn(Game current)
         {
             String returnString = "pass";
@@ -21,6 +31,7 @@ namespace Patchwork
         {
             name = nam;
         }
+
         public virtual string SpecialPatch(Game current)
         {
             String returnString = "";

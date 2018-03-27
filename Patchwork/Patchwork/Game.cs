@@ -6,6 +6,17 @@ namespace Patchwork
 {
     public class Game
     {
+        /*update ppt to consider pass > value of tile
+         * 
+         * reactive agent
+         * 1. get opponent
+         * 
+         * 
+         */
+
+
+
+
         Player player1;
         Player player2;
 
@@ -581,6 +592,15 @@ namespace Patchwork
 
 
             return false;
+        }
+
+        public Player ReturnOpponent(string name)
+        {
+            if (player1.GetName() == name)
+            {
+                return player2;
+            }
+            return player1;
         }
     }
 }

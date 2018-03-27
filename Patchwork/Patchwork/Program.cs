@@ -24,7 +24,7 @@ namespace Patchwork
             Player pPTT2 = new PlayerAgentPointPerTimetwo("PPTT2");//<====
             PlayerAgentEarlyEconomy eco = new PlayerAgentEarlyEconomy("Eco");
             eco.TimeThreshhold = 34;
-
+            Player pPTR = new PlayerAgentPointPerTimeReactive("PPTR");
 
 
             while (true)
@@ -132,12 +132,12 @@ namespace Patchwork
                             string path2 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\RandomSetup" + i + ".txt";
                             tilesLoadFile(game3, path2);
                             pPTT2.Reset();
-                            pPT.Reset();
-                            game3.setPlayers(pPTT2, pPT);
+                            pPTR.Reset();
+                            game3.setPlayers(pPTT2, pPTR);
                             string winner = game3.rungame().GetName();
 
                             if (winner == "PPTT2") { p3Count++; }
-                            if (winner == "PPT") { p4Count++; }
+                            if (winner == "PPTR") { p4Count++; }
                             if (winner == "Draw") { draw2Count++; }
 
                             Console.WriteLine(i + ":" + winner);
@@ -145,7 +145,7 @@ namespace Patchwork
                         }
 
                         Console.WriteLine(pPTT2.GetName() + " " + p3Count + " Wins");
-                        Console.WriteLine(pPT.GetName() + " " + p4Count + " Wins");
+                        Console.WriteLine(pPTR.GetName() + " " + p4Count + " Wins");
                         Console.WriteLine(draw2Count + " Draws");
                         Console.ReadLine();
                         break;

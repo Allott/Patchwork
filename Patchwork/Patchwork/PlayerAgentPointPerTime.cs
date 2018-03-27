@@ -62,6 +62,10 @@ namespace Patchwork
                 }
             }
 
+
+
+
+
             switch (numCanBePlaced)
             {
                 case 0:

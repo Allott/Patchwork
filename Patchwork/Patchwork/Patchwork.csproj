@@ -48,6 +48,7 @@
     <Compile Include="PlayerAgentB.cs" />
     <Compile Include="PlayerAgentBTalks.cs" />
     <Compile Include="PlayerAgentEarlyEconomy.cs" />
+    <Compile Include="PlayerAgentPointPerTimeReative.cs" />
     <Compile Include="PlayerAgentPointPerTimetwo.cs" />
     <Compile Include="PlayerAgentPointPerTimeTalks.cs" />
     <Compile Include="PlayerAgentPointPerTime.cs" />
