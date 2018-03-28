@@ -564,8 +564,8 @@ namespace Patchwork
                                 if (counter >= 49)
                                 {
 
-                                    Console.WriteLine(":O");
-                                    Console.ReadLine();
+                                    //Console.WriteLine(":O");
+                                    //Console.ReadLine();
                                     return true;
                                     
                                 }

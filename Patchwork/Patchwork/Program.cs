@@ -13,31 +13,39 @@ namespace Patchwork
         static void Main(string[] args)
         {
             string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\" + "1.txt";
+
             Player pass = new Player("Passer");
             Player hum1 = new PlayerHuman("Human 1");
             Player hum2 = new PlayerHuman("Human 2");
-            Player brtT = new PlayerAgentBTalks("BruteT");
-            Player brt1 = new PlayerAgentB("Brute1");
-            Player brt2 = new PlayerAgentB("Brute2");
-            Player pPT = new PlayerAgentPointPerTime("PPT");
-            Player pPTT = new PlayerAgentPointPerTimeTalks("PPTT");
-            Player pPTT2 = new PlayerAgentPointPerTimetwo("PPTT2");//<====
-            PlayerAgentEarlyEconomy eco = new PlayerAgentEarlyEconomy("Eco");
+
+            Player first = new PlayerAgentFirstOptionSO("First");
+            Player high = new PlayerAgentHighestPointSO("Highest");
+            Player pPT = new PlayerAgentPointPerTimeSO("PPT");
+            PlayerAgentEarlyEconomySO eco = new PlayerAgentEarlyEconomySO("Economy");
             eco.TimeThreshhold = 34;
-            Player pPTR = new PlayerAgentPointPerTimeReactive("PPTR");
+            Player react = new PlayerAgentPointPerTimeReactiveSO("React");
+
+            Player[] playerList = {pass, hum1, hum2,
+                first, high, pPT, eco, react
+            }; 
+
+
+
+            Player p1 = react;
+            Player p2 = eco;
 
 
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("Patchwork Demo");
+                Console.WriteLine("Patchwork Experimentor");
                 Console.WriteLine("");
-                Console.WriteLine("1 - Gameplay and Human interface");
-                Console.WriteLine("2 - Basic Rational Agent implementation");
-                Console.WriteLine("3 - Example experiment");
-                Console.WriteLine("4 - two player game");
-                Console.WriteLine("5 - PPTT testing");
-                Console.WriteLine("6 - Experement PPT");
+                Console.WriteLine("1 - Generate New Setup");
+                Console.WriteLine("2 - Set Player1");
+                Console.WriteLine("3 - Set Player2");
+                Console.WriteLine("4 - Set Economy Threshhold");
+                Console.WriteLine("5 - Play Single Game");
+                Console.WriteLine("6 - Play 1000 Games");
                 Console.WriteLine("");
                 Console.WriteLine("please enter the demo you would like to run.");
                 Console.WriteLine("");
@@ -48,146 +56,84 @@ namespace Patchwork
                 switch (Console.ReadLine())
                 {
                     case "1":
-                        Game game1 = new Game();
-                        tilesLoadFile(game1, path);
-                        game1.setPlayers(hum1, pass);
-                        /*
-                        for (int i = 0; i < 7; i++)
-                        {
-                            for (int j = 0; j < 7; j++)
-                            {
-                                hum1.GetGrid().shape[i+2, j+2] = true;
-                            }
-                        }
-                        */
-                        game1.rungame();
-                        break;
-
-                    case "2":
-                        Game game2 = new Game();
-                        tilesLoadFile(game2, path);
-                        game2.setPlayers(brtT, pass);
-                        game2.rungame();
-                        break;
-
-                    case "3":
                         Console.Clear();
                         Console.WriteLine("Generating Setups");
                         filemaker();
+                        break;
 
-                        int p1Count = 0;
-                        int p2Count = 0;
-                        int drawCount = 0;
+                    case "2":
+                        p1 = Select(playerList);
+                        break;
 
-                        for (int i = 0; i < 1000; i++)
-                        {
-                            Game game3 = new Game();
-                            string path2 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\RandomSetup" + i + ".txt";
-                            tilesLoadFile(game3, path2);
-                            brt1.Reset();
-                            brt2.Reset();
-                            game3.setPlayers(brt1, brt2);
-                            string winner = game3.rungame().GetName();
-
-                            if (winner == "Brute1") { p1Count++; }
-                            if (winner == "Brute2") { p2Count++; }
-                            if (winner == "Draw") { drawCount++; }
-
-                            Console.WriteLine(i + ":" + winner);
-
-                        }
-
-                        Console.WriteLine(brt1.GetName() + " " + p1Count + " Wins");
-                        Console.WriteLine(brt2.GetName() + " " + p2Count + " Wins");
-                        Console.WriteLine(drawCount + " Draws");
-                        Console.ReadLine();
+                    case "3":
+                        p2 = Select(playerList);
                         break;
 
                     case "4":
-                        Game game4 = new Game();
-                        tilesLoadFile(game4, path);
-                        game4.setPlayers(hum1, hum2);
-                        game4.rungame();
+                        eco.TimeThreshhold = Convert.ToInt32(Console.ReadLine());
                         break;
 
                     case "5":
-                        Game game5 = new Game();
-                        tilesLoadFile(game5, path);
-                        game5.setPlayers(pPTT, pass);
-                        game5.rungame();
+                        Console.Clear();
+                        p1.Reset();
+                        p2.Reset();
+                        Game game1 = new Game();
+                        tilesLoadFile(game1, path);
+                        game1.setPlayers(p1, p2);
+                        Console.WriteLine("Winner: " + game1.rungame().GetName());
+                        Console.ReadLine();
                         break;
 
                     case "6":
                         Console.Clear();
-                        Console.WriteLine("Generating Setups");
-                        filemaker();
+                        int Countp1 = 0;
+                        int Countp2 = 0;
+                        
 
-                        int p3Count = 0;
-                        int p4Count = 0;
-                        int draw2Count = 0;
-
-                        for (int i = 0; i < 1000; i++)
+                        for (int i = 0; i < 500; i++)
                         {
-                            Game game3 = new Game();
+                            p1.Reset();
+                            p2.Reset();
+                            Game game2 = new Game();
                             string path2 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\RandomSetup" + i + ".txt";
-                            tilesLoadFile(game3, path2);
-                            pPTT2.Reset();
-                            pPTR.Reset();
-                            game3.setPlayers(pPTT2, pPTR);
-                            string winner = game3.rungame().GetName();
+                            tilesLoadFile(game2, path2);
+                            game2.setPlayers(p1, p2);
 
-                            if (winner == "PPTT2") { p3Count++; }
-                            if (winner == "PPTR") { p4Count++; }
-                            if (winner == "Draw") { draw2Count++; }
+                            string winner = game2.rungame().GetName();
+
+                            if (winner == p1.GetName()) { Countp1++; }
+                            if (winner == p2.GetName()) { Countp2++; }
 
                             Console.WriteLine(i + ":" + winner);
-
                         }
 
-                        Console.WriteLine(pPTT2.GetName() + " " + p3Count + " Wins");
-                        Console.WriteLine(pPTR.GetName() + " " + p4Count + " Wins");
-                        Console.WriteLine(draw2Count + " Draws");
+                        for (int i = 500; i < 1000; i++)//for second half of games invert who goes first
+                        {
+                            p1.Reset();
+                            p2.Reset();
+                            Game game2 = new Game();
+                            string path2 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\RandomSetup" + i + ".txt";
+                            tilesLoadFile(game2, path2);
+                            game2.setPlayers(p2, p1);
+
+                            string winner = game2.rungame().GetName();
+
+                            if (winner == p1.GetName()) { Countp1++; }
+                            if (winner == p2.GetName()) { Countp2++; }
+                            if (winner == "Draw") { }
+
+                            Console.WriteLine(i + ":" + winner);
+                        }
+
+                        
+
+                        Console.WriteLine(p1.GetName() + " " + Countp1 + " Wins");
+                        Console.WriteLine(p2.GetName() + " " + Countp2 + " Wins");
                         Console.ReadLine();
                         break;
 
                     case "7":
-                        Console.Clear();
-                        Console.WriteLine("Generating Setups");
-                        filemaker();
-                        Console.WriteLine("done");
-
-                        for (int i = 1; i < 52; i++)
-                        {
-                            Console.Write(i);
-                            int wins = 0;
-                            float score = 0;
-
-                            for (int j = 0; j < 1000; j++)
-                            {
-                                Game game = new Game();
-                                string path2 = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Data\RandomSetup" + i + ".txt";
-                                tilesLoadFile(game, path2);
-                                eco.Reset();
-                                eco.TimeThreshhold = i;
-                                pass.Reset();
-
-                                game.setPlayers(eco, pass);
-                                Player winner = game.rungame();
-
-                                if (winner.GetName() == "Eco")
-                                {
-                                    score += winner.GetGrid().returnScore() + winner.GetButtons();
-                                    wins++;
-                                }
-
-                            }
-
-                            score = score / 1000;
-
-                            Console.WriteLine("I:" + i + "/tWins:" + wins + "/tScore:" + score);
-
-                        }
-                        Console.ReadLine();
+                        
                         break;
 
                     default:
@@ -290,5 +236,25 @@ namespace Patchwork
             }
         }
 
+        public static Player Select(Player[] l)
+        {
+            Console.Clear();
+            for (int i = 0; i < l.Length; i++)
+            {
+                Console.WriteLine(i + " " + l[i].GetName());
+            }
+
+            try
+            {
+                return l[Convert.ToInt32(Console.ReadLine())];
+            }
+            catch
+            {
+                return l[0];
+            }
+
+
+            
+        }
     }
 }
