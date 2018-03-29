@@ -48,6 +48,9 @@
     <Compile Include="PlayerAgentFirstOptionSO.cs" />
     <Compile Include="OldAgents\PlayerAgentBTalksOLD.cs" />
     <Compile Include="PlayerAgentEarlyEconomySO.cs" />
+    <Compile Include="PlayerAgentSpaceOptimization.cs" />
+    <Compile Include="PlayerAgentSevenPoint.cs" />
+    <Compile Include="PlayerAgentHighestPointSP.cs" />
     <Compile Include="PlayerAgentPointPerTimeReativeSO.cs" />
     <Compile Include="PlayerAgentHighestPointSO.cs" />
     <Compile Include="PlayerAgentPointPerTimeSO.cs" />

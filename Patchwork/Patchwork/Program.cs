@@ -18,6 +18,9 @@ namespace Patchwork
             Player hum1 = new PlayerHuman("Human 1");
             Player hum2 = new PlayerHuman("Human 2");
 
+            Player spaceOptimization = new PlayerAgentSpaceOptimization("SpaceOptimization");
+            Player sevenPoints = new PlayerAgentSevenPoint("SevenPoints");
+
             Player first = new PlayerAgentFirstOptionSO("First");
             Player high = new PlayerAgentHighestPointSO("Highest");
             Player pPT = new PlayerAgentPointPerTimeSO("PPT");
@@ -25,20 +28,27 @@ namespace Patchwork
             eco.TimeThreshhold = 34;
             Player react = new PlayerAgentPointPerTimeReactiveSO("React");
 
-            Player[] playerList = {pass, hum1, hum2,
-                first, high, pPT, eco, react
+            Player highSP = new PlayerAgentHighestPointSP("HighestSP");
+
+            Player[] playerList = {pass, hum1, hum2,//base 
+                spaceOptimization,sevenPoints,//placement
+                first, high, pPT, eco, react,//SO
+                highSP//SP
             }; 
 
 
 
-            Player p1 = react;
-            Player p2 = eco;
+            Player p1 = spaceOptimization;
+            Player p2 = sevenPoints;
 
 
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Patchwork Experimentor");
+                Console.WriteLine("");
+                Console.WriteLine("P1: " + p1.GetName());
+                Console.WriteLine("P2: " + p2.GetName());
                 Console.WriteLine("");
                 Console.WriteLine("1 - Generate New Setup");
                 Console.WriteLine("2 - Set Player1");

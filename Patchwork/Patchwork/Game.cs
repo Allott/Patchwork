@@ -544,7 +544,7 @@ namespace Patchwork
             return tileList;
         }
 
-        public bool CheckForSevenX(Player p)//i hate everythng about this
+        public bool CheckForSevenX(Player p)//i hate everything about this
         {
             for (int i = 0; i < 3; i++)
             {
@@ -564,7 +564,7 @@ namespace Patchwork
                                 if (counter >= 49)
                                 {
 
-                                    //Console.WriteLine(":O");
+                                    Console.WriteLine(":O");
                                     //Console.ReadLine();
                                     return true;
                                     
